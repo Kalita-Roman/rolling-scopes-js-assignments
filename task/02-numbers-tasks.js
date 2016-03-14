@@ -111,12 +111,7 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (1,2)     => 0
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
-		var res = Math.abs(Math.acos((x1*x2 + y1*y2)/(Math.hypot(x1, y1)*Math.hypot(x2, y2))));
-		if(res === Math.PI) {
-			return -res;
-		} else {
-			return res;
-		}
+	return Math.abs(Math.acos((x1*x2 + y1*y2)/(Math.hypot(x1, y1)*Math.hypot(x2, y2))));
 }
 
 /**
