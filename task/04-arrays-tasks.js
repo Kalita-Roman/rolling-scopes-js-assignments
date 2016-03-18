@@ -40,7 +40,7 @@ function findElement(arr, value) {
 function generateOdds(len) {
   //throw new Error('Not implemented');	var value = -1;
 	var value = -1;
- 	return Array.apply(null, {length: len}).map(function(elem, index) { value +=2; return value});
+ 	return Array.apply(null, {length: len}).map( (elem, index) => { value +=2; return value} );
 }
 
 
@@ -104,7 +104,7 @@ function getArrayOfStrings(arr) {
  *    [ false, 0, NaN, '', undefined ]   => [ ]
  */
 function removeFalsyValues(arr) {
-   return arr.filter( function(elem) { return !!elem; } );
+   return arr.filter( elem => { return !!elem; } );
 }
 
 /**
@@ -118,7 +118,7 @@ function removeFalsyValues(arr) {
  *    [ 'a', 'b', 'c', 'd', 'e', 'f', 'g' ]  => [ 'A', 'B', 'C', 'D', 'E', 'F', 'G' ]
  */
 function getUpperCaseStrings(arr) {
-   return arr.map(function(elem) { return elem.toUpperCase(); })
+   return arr.map( elem => { return elem.toUpperCase(); } );
 }
 
 
@@ -133,7 +133,7 @@ function getUpperCaseStrings(arr) {
  *    [ 'angular', 'react', 'ember' ] => [ 7, 5, 5 ]
  */
 function getStringsLength(arr) {
-   return arr.map(function(elem) { return elem.length; })
+   return arr.map( elem => { return elem.length; })
 }
 
 /**
@@ -202,10 +202,9 @@ function getTail(arr, n) {
  *    +'30,31,32,33,34'
  */
 function toCsvText(arr) {
-	var arrStrings = arr.map( function (elem) { return elem.toString() + '\n' } );
-  var result = '';
-  arrStrings.map( function(elem) { result += elem });
-  return result.trim();
+  	var arrStrings = arr.map( elem => { return elem.toString() + '\n' } );
+  	var result = arrStrings.reduce( (previous, current) => { return previous + current; }, '' );
+  	return result.trim();
 }
 
 /**
@@ -220,7 +219,7 @@ function toCsvText(arr) {
  *   [ 10, 100, -1 ]      => [ 100, 10000, 1 ]
  */
 function toArrayOfSquares(arr) {
-   return arr.map( function (elem) { return elem * elem; });
+   return arr.map( elem => { return elem * elem; });
 }
 
 
@@ -240,7 +239,7 @@ function toArrayOfSquares(arr) {
  */
 function getMovingSum(arr) {
 	var sum = 0;
-  return arr.map( function (elem) { sum += elem; return sum; });
+  	return arr.map( elem => { return sum += elem; });
 }
 
 /**
@@ -255,7 +254,7 @@ function getMovingSum(arr) {
  * [ "a" ] => []
  */
 function getSecondItems(arr) {
-	throw new Error('Not implemented');
+	return arr.filter( (element, index) => { return index % 2; } );
 }
 
 
@@ -309,8 +308,9 @@ function get3TopItems(arr) {
  *   [ null, 1, 'elephant' ] => 1
  */
 function getPositivesCount(arr) {
-   throw new Error('Not implemented');
+   	return arr.filter( elem => { return elem > 0 } ).length || 0;
 }
+	
  
 /** 
  * Sorts digit names
@@ -342,7 +342,7 @@ function sortDigitNamesByNumericOrder(arr) {
  *   [ 1, 10, 100, 1000 ]  => 1111
  */
 function getItemsSum(arr) {
-   throw new Error('Not implemented');
+   return arr.reduce( (previous,current) => { return previous + current; } , 0 );
 }
  
 /** 
@@ -358,7 +358,7 @@ function getItemsSum(arr) {
  *  [ null, undefined, NaN, false, 0, '' ]  => 6
  */
 function getFalsyValuesCount(arr) {
-   throw new Error('Not implemented');
+	return arr.reduce( (previous,current) => { return current ? previous : ++previous; } , 0 );
 }
 
 /**
@@ -376,7 +376,7 @@ function getFalsyValuesCount(arr) {
  *    [ true, 0, 1, 'true' ], true => 1
  */
 function findAllOccurences(arr, item) {
-   throw new Error('Not implemented');
+   return arr.filter( elem => { return elem === item } ).length;
 }
 
 /**
@@ -391,7 +391,7 @@ function findAllOccurences(arr, item) {
  *    ['rock', 'paper', 'scissors']     => 'rock,paper,scissors'
  */
 function toStringList(arr) {
-   throw new Error('Not implemented');
+   return arr.join(',');
 }
 
 
@@ -420,7 +420,26 @@ function toStringList(arr) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  */
 function sortCitiesArray(arr) {
-   throw new Error('Not implemented');
+    function C(key) {
+      	this.compare = function (a, b) {
+	    	var ak = a[key];
+	    	var bk = b[key];
+	    	return ak > bk ? 1 : ( ak < bk ? -1 : 0 );
+	    }
+    };
+  
+    var compare = function(a, b) {
+      	var c1 = new C('country');
+      	var c2 = new C('city');
+	      
+      	var r1 = c1.compare(a, b)*2;
+      	var r2 = c2.compare(a, b);
+      
+      	return r1 + r2;
+    };
+  
+	arr.sort(compare);
+   	return arr;
 }
 
 /**
@@ -474,7 +493,9 @@ function getIntervalArray(start, end) {
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
 function distinct(arr) {
-   throw new Error('Not implemented');
+	var result = [];
+	arr.map((elem) => { if( !result.some(item => { return item === elem; }) ) { result.push(elem) } })
+  	return result;
 }
 
 /**
