@@ -69,7 +69,7 @@ function getStringFromTemplate(firstName, lastName) {
  *   'Hello, Chuck Norris!' => 'Chuck Norris'
  */
 function extractNameFromTemplate(value) {
-    return value.match(/Hello, (\w+\s\w+)!/)[1];
+    return value.slice(7, -1);
 }
 
 
@@ -114,7 +114,7 @@ function removeLeadingAndTrailingWhitespaces(value) {
  *   'cat', 3 => 'catcatcat'
  */
 function repeatString(value, count) {
-   return new Array( count + 1 ).join(value);
+   return value.repeat(count);
 }
 
 /**
@@ -145,7 +145,7 @@ function removeFirstOccurrences(str, value) {
  *   '<a>' => 'a'
  */
 function unbracketTag(str) {
-    return str.match(/<(\w+)>/)[1];
+    return str.slice(1, -1);
 }
 
 
@@ -201,24 +201,14 @@ function extractEmails(str) {
  *
  */
 function getRectangleString(width, height) {
-    function row (left, middle, right) {
-        var border = subRow(middle);
-        return `${left}${border}${right}\n`;
-    }
+    var w = width - 2;
+    var h = height - 2;
 
-    function subRow (char) {
-        return arrayRows(char, width);
-    }
+    var top = '┌' + '─'.repeat(w) + '┐\n';
+    var middle = ('│' + ' '.repeat(w) + '│\n').repeat(h);
+    var bottom = '└' + '─'.repeat(w) + '┘\n';
 
-    function arrayRows (subRow, count) {
-        return new Array( count - 1 ).join(subRow);
-    }
-
-    function center () {
-        return arrayRows(row ('│', ' ','│'), height);
-    }
-
-    return row('┌', '─', '┐') + center() + row('└', '─', '┘');
+    return top + middle + bottom;
 }
 
 
@@ -238,8 +228,13 @@ function getRectangleString(width, height) {
  *
  */
 function encodeToRot13(str) {
+    const lettersCount = 26;
+    const lowercaseOffset = 'z'.charCodeAt(0);
+    const uppercaseOffset = 'Z'.charCodeAt(0);
+    const MIDDLE = 13;
+
     function change(char) {
-            return String.fromCharCode((char <= "Z" ? 90 : 122) >= (char = char.charCodeAt(0) + 13) ? char : char - 26);
+            return String.fromCharCode((char <= "Z" ? uppercaseOffset : lowercaseOffset) >= (char = char.charCodeAt(0) + MIDDLE) ? char : char - lettersCount);
         }
 
     return str.replace(/[a-zA-Z]/g, change);
@@ -288,12 +283,21 @@ function isString(value) {
  *   'K♠' => 51
  */
 function getCardId(value) {
-    var deck = ['A♣','2♣','3♣','4♣','5♣','6♣','7♣','8♣','9♣','10♣','J♣','Q♣','K♣',
-                'A♦','2♦','3♦','4♦','5♦','6♦','7♦','8♦','9♦','10♦','J♦','Q♦','K♦',
-                'A♥','2♥','3♥','4♥','5♥','6♥','7♥','8♥','9♥','10♥','J♥','Q♥','K♥',
-                'A♠','2♠','3♠','4♠','5♠','6♠','7♠','8♠','9♠','10♠','J♠','Q♠','K♠'];
-                                       
-    return deck.indexOf(value);
+
+    var getNum = function(symbol) {
+        switch (symbol) {
+            case 'A': return 1;
+            case 'J': return 11;
+            case 'Q': return 12;
+            case 'K': return 13;
+            default: return parseInt(symbol);
+        };
+    }
+
+    var v1 = '♣♦♥♠'.indexOf(value.slice(-1)) * 13;
+    var v2 = getNum(value.slice(0, -1)) - 1;
+
+    return v1 + v2;
 }
 
 

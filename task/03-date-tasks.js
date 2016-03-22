@@ -77,35 +77,12 @@ function isLeapYear(date) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
 function timeSpanToString(startDate, endDate) {
-   var timespan = endDate - startDate;
-   var ms = timespan % 1000;
-   timespan = (timespan - ms) / 1000;
-   var sec = timespan % 60;
-   timespan = (timespan - sec) / 60;
-   var m = timespan % 60;
-   timespan = (timespan - m) / 60;
-   var h = timespan;
-
-   function ts (val) {
-      if (val < 10) {
-        return `0${val}`;
-      } else {
-        return `${val}`;
-      }
-   }
-
-    function tms (val) {
-      if (9 < val && val < 100) {
-        return `0${val}`;
-      } else 
-      if (val < 10) {
-        return `00${val}`;
-      } else {
-        return `${val}`;
-      }
-   }
-
-   return `${ts(h)}:${ts(m)}:${ts(sec)}.${tms(ms)}`;
+   var timespan = new Date(endDate - startDate).toISOString();
+   var h = timespan.slice(11, -11);
+   var m = timespan.slice(14, -8);
+   var sec = timespan.slice(17, -5);
+   var ms = timespan.slice(20, -1);
+   return `${h}:${m}:${sec}.${ms}`;
 }
 
 

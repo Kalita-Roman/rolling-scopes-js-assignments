@@ -89,7 +89,7 @@ function getDistanceBetweenPoints(x1, y1, x2, y2) {
  *   5*x = 0         => 0
  */
 function getLinearEquationRoot(a, b) {
-    return -1 * b / a;
+    return -b / a;
 }
 
 
@@ -111,7 +111,7 @@ function getLinearEquationRoot(a, b) {
  *   (0,1) (1,2)     => 0
  */
 function getAngleBetweenVectors(x1, y1, x2, y2) {
-	return Math.abs(Math.acos((x1*x2 + y1*y2)/(Math.hypot(x1, y1)*Math.hypot(x2, y2))));
+    return Math.abs(Math.atan2(x1, y1) - Math.atan2(x2,y2));
 }
 
 /**
@@ -160,7 +160,7 @@ function parseNumberFromString(value) {
  *   1,2,3   => 3.741657386773941
  */
 function getParallelipidedDiagonal(a,b,c) {
-    return Math.sqrt( a * a + b * b + c * c);
+    return Math.hypot( a, b, c);
 }
 
 /**
@@ -228,11 +228,7 @@ function isPrime(n) {
  */
 function toNumber(value, def) {
 		var result = +value;
-		if(isNaN(result)) {
-			return def;
-		} else {
-			return result;
-		}
+        return isNaN(result) ? def : result;
 }
 
 module.exports = {
