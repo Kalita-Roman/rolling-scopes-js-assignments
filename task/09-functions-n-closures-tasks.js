@@ -26,7 +26,7 @@
  *
  */
 function getComposition(f,g) {
-    throw new Error('Not implemented');
+	return x => f(g(x));
 }
 
 
@@ -47,7 +47,7 @@ function getComposition(f,g) {
  *
  */
 function getPowerFunction(exponent) {
-    throw new Error('Not implemented');
+    return x => Math.pow(x, exponent);
 }
 
 
@@ -65,7 +65,8 @@ function getPowerFunction(exponent) {
  *   getPolynom()      => null
  */
 function getPolynom() {
-    throw new Error('Not implemented');
+    var countArg = arguments.length - 1;
+	return (x) => Array.from(arguments).reduce((prev, elem, ind) => { return prev + elem*Math.pow(x, countArg - ind); }, 0);
 }
 
 
@@ -84,7 +85,8 @@ function getPolynom() {
  *   memoizer() => the same random number  (next run, returns the previous cached result)
  */
 function memoize(func) {
-    throw new Error('Not implemented');
+    var val = func();
+    return () => val;
 }
 
 
@@ -104,7 +106,13 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-    throw new Error('Not implemented');
+    return () => {
+        do {
+            try {
+                return func();
+            } catch(err) { }
+        } while(attempts-- > 0);
+    }
 }
 
 
@@ -132,7 +140,16 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-    throw new Error('Not implemented');
+    //throw new Error('Not implemented');
+    return function() {
+        var args = JSON.stringify(Array.from(arguments)).slice(1, -1);
+        var name = func.name;
+        var createRecord = s => logFunc(`${name}(${args}) ${s}`);
+        createRecord('starts');
+        var result = func.apply(this, arguments);
+        createRecord('ends');
+        return result;
+    };
 }
 
 
@@ -150,7 +167,11 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
 function partialUsingArguments(fn) {
-    throw new Error('Not implemented');
+    var args = Array.from(arguments).slice(1);
+    return function () { 
+        var all = args.concat(Array.from(arguments));
+        return fn(all[0], all[1], all[2], all[3]);
+    }
 }
 
 
@@ -171,7 +192,7 @@ function partialUsingArguments(fn) {
  *   getId10() => 11
  */
 function getIdGeneratorFunction(startFrom) {
-    throw new Error('Not implemented');
+    return () => startFrom++;
 }
 
 
