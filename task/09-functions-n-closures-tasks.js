@@ -170,7 +170,8 @@ function partialUsingArguments(fn) {
     var args = Array.from(arguments).slice(1);
     return function () { 
         var all = args.concat(Array.from(arguments));
-        return fn(all[0], all[1], all[2], all[3]);
+        //return fn(all[0], all[1], all[2], all[3]);
+        return fn(...all);
     }
 }
 
