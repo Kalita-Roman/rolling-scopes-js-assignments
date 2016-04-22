@@ -588,7 +588,45 @@ function getMatrixProduct(m1, m2) {
  *
  */
 function evaluateTicTacToePosition(position) {
-    var isTotal = function(total) {
+    let combinations = [
+        [ 0 , 1 , 2 ],
+        [ 3 , 4 , 5 ],
+        [ 6 , 7 , 8 ],
+        [ 0 , 3 , 6 ],
+        [ 1 , 4 , 7 ],
+        [ 2 , 5 , 8 ],
+        [ 0 , 4 , 8 ],
+        [ 2 , 4 , 6 ]
+    ];
+
+    let getField = function(num) {
+        let row = Math.floor(num / 3);
+        let col = num % 3;
+        return position[row][col];
+    }
+
+    let tryConmbin = function(combin) {
+        var valuesFields = combin.map(x => getField(x));
+        let every = s => valuesFields.every( x => x === s);
+        if( every('X') )
+            return 'X';
+        if( every('0') )
+            return '0';
+        return undefined;
+    }
+
+    let result = undefined;
+
+    let handleCombin = function(combin) {
+        result = tryConmbin(combin);
+        return result;
+    }
+
+    combinations.find(handleCombin);
+    return result;
+
+
+    /*var isTotal = function(total) {
     	switch(total) {
         	case 'XXX': return 'X';
         	case '000': return '0';
@@ -626,9 +664,9 @@ function evaluateTicTacToePosition(position) {
        	temp = temp + position[row][col];
     }
     result = isTotal(temp);
-    if(result) return result; 
+    if(result) return result;
         
-    return undefined;
+    return undefined;*/
 }
 
 
