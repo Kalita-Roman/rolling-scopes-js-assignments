@@ -30,12 +30,11 @@
  *
  */
 function getFizzBuzz(num) {
-    var res = '';
-
-    !(num % 3) && (res += 'Fizz');
-    !(num % 5) && (res += 'Buzz');
-
-    return res === '' ?  num : res ;
+    let div = x => !(num % x);
+    if( div(15) ) return 'FizzBuzz'; 
+    if( div(5) ) return 'Buzz';
+    if( div(3) ) return 'Fizz';
+    return num;
 }
 
 
@@ -624,49 +623,6 @@ function evaluateTicTacToePosition(position) {
 
     combinations.find(handleCombin);
     return result;
-
-
-    /*var isTotal = function(total) {
-    	switch(total) {
-        	case 'XXX': return 'X';
-        	case '000': return '0';
-        	default: return false;
-      	}
-    };
-    
-    const LEN = 3;
-    var i, row, col, temp, result;
-
-    for(row = 0; row < LEN ; row++ )
-    {
-        result = isTotal(position[row].join(''));
-        if(result) return result;
-    }
-  
-    for(col = 0; col < LEN ; col++ ) {
-      	temp = '';
-      	for(row = 0; row < LEN ; row++ ) {
-        	temp = temp + position[row][col];
-	    }
-       	result = isTotal(temp);
-       	if(result) return result; 
-    }
-    
-    temp = '';
-    for(i = 0; i < LEN ; i++ ) {
-       	temp = temp + position[i][i];
-    }
-    result = isTotal(temp);
-    if(result) return result; 
-  
-    temp = '';
-    for(row = 0, col = 2; row < LEN ; row++, col-- ) {
-       	temp = temp + position[row][col];
-    }
-    result = isTotal(temp);
-    if(result) return result;
-        
-    return undefined;*/
 }
 
 
