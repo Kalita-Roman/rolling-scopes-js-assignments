@@ -232,18 +232,17 @@ function findFirstSingleChar(str) {
  *
  */
 function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
-    var v1 = isStartIncluded ? '[' : '(';
-    var v2;
-    var v3
-    var v4 = isEndIncluded ? ']' : ')';
+    var brackets = {
+       'true'  : ['[',']'],
+       'false' : ['(',')']
+    };
+    var getBracket = (f, n) => brackets[f][n];
+    var data = [a, b].sort((x,y) => x - y);
 
-    if(a < b) {
-        v2 = a; 
-        v3 = b;
-    } else {
-        v2 = b;
-        v3 = a;
-    }
+    var v1 = getBracket( isStartIncluded, 0 );
+    var v2 = data[0];
+    var v3 = data[1]; 
+    var v4 = getBracket( isEndIncluded, 1 );
     return `${v1}${v2}, ${v3}${v4}`;
 }
 
@@ -380,13 +379,10 @@ function getDigitalRoot(num) {
 function isBracketsBalanced(str) {
     while(true) {
         var newStr = str.replace(/<>|\[\]|\{\}|\(\)/, '');
-        if(newStr === str) {
+        if(newStr === str)
             return newStr.length === 0;
-        } else {
-            str = newStr;
-        }
+        str = newStr;
     }
-    return str;
 }
 
 
